@@ -1,0 +1,22 @@
+kind: pipeline
+name: default
+
+steps:
+- name: backend
+  image: golang
+  commands:
+  - go build
+  - go test
+- name: build
+  image: docker
+  commands:
+  - docker build -t registry.cn-hangzhou.aliyuncs.com/supcon_rd/drone-test:v1 .
+  volumes:
+  - name: docker
+    path: /var/run/docker.sock
+
+volumes:
+- name: docker
+  host:
+    path: /var/run/docker.sock
+  
